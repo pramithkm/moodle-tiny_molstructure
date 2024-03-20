@@ -30,7 +30,6 @@ import Selectors from 'tiny_molstructure/selectors';
 import * as Config from 'core/config';
 import {insertImage} from "./ketcher";
 import {initCanvas2D} from "./canvas2D";
-import {initCanvas3D} from "./canvas3D";
 
 /**
  * Handle action
@@ -69,14 +68,14 @@ export const displayDialogue = async(editor) => {
         if (submitAction) {
             e.preventDefault();
             // Select current iframe
-            const currentFrame = window.document.querySelector(Selectors.elements.canvas.selector2D)
+            const currentFrame = window.document.querySelector(Selectors.elements.canvas.selector2D);
             insertImage(currentFrame, editor);
         }
         modalPromises.destroy();
     });
     root.on(ModalEvents.save, (e) => {
         e.preventDefault();
-        const currentFrame = window.document.querySelector(Selectors.elements.canvas.selector2D)
+        const currentFrame = window.document.querySelector(Selectors.elements.canvas.selector2D);
         insertImage(currentFrame, editor);
         modalPromises.destroy();
     });

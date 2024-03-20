@@ -13,15 +13,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 import Selectors from "tiny_molstructure/selectors";
-import config from 'core/config'
-import {get_string as getString} from 'core/str';
-import {component} from 'tiny_molstructure/common';
 import notification from "core/notification";
 import Ajax from 'core/ajax';
 import {getDraftItemId} from 'editor_tiny/options';
 
 /**
  * @module     tiny_molstructure/ketcher
+ * @copyright   2024 University of Strasbourg unistra.fr
+ * @author Céline Pervès <louis.plyer@unistra.fr>
+ * @author Louis Plyer <louis.plyer@unistra.fr>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * Visual Mathquill editor input instanciation
  */
 
@@ -48,20 +49,8 @@ export const createAnUploadImageFile = async (itemId, imageDataUrl) => {
       done : result => {
         resolve(result);
       },
-      fail: notification.exception || failCallback('Error while generated image.')
+      fail: notification.exception
     }]);
   });
   return generatedImageResult;
 };
-
-function base64ToBlob(base64String, contentType = '') {
-  const byteCharacters = atob(base64String);
-  const byteArrays = [];
-
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteArrays.push(byteCharacters.charCodeAt(i));
-  }
-
-  const byteArray = new Uint8Array(byteArrays);
-  return new Blob([byteArray], { type: contentType });
-}

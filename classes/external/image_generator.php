@@ -34,15 +34,14 @@ use external_single_structure;
 use external_value;
 use stdClass;
 
-global $CFG;
-
-require_once("$CFG->dirroot/lib/editor/tiny/plugins/molstructure/lib.php");
 /**
  * Generate an image with datas provided by image dataUrl representation
- * @itemId int item id, drafitemid of the tiny editor
- * @imageDataUrl dataUrl representing the image to upload
  */
 class image_generator extends external_api {
+    /**
+     * external function parameters
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'itemId' => new external_value(PARAM_INT, 'itemid', VALUE_REQUIRED),
@@ -51,8 +50,8 @@ class image_generator extends external_api {
     }
 
     /**
+     * create a file from imagedatas and return its url
      * @param string $itemid
-     * @param string $filename
      * @param string $imagedataurl
      * @return array
      * @throws \invalid_parameter_exception
@@ -99,6 +98,10 @@ class image_generator extends external_api {
         ];
     }
 
+    /**
+     * external function return parameters
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'fileUrl' => new external_value(PARAM_RAW, 'File url'),
