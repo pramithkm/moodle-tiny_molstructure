@@ -16,6 +16,7 @@ import Selectors from "tiny_molstructure/selectors";
 import notification from "core/notification";
 import Ajax from 'core/ajax';
 import {getDraftItemId} from 'editor_tiny/options';
+import {getContextId} from "./options";
 
 /**
  * @module     tiny_molstructure/ketcher
@@ -32,19 +33,20 @@ export const insertImage = async(iframeBody, editor) => {
   let ketcherViewer = iframeBody.contentDocument.querySelector(Selectors.elements.canvas.ketcherviewId);
   const imgDataURL = ketcherViewer.toDataURL('image/svg');
   const itemId = getDraftItemId(editor);
-  const fileReturn = await createAnUploadImageFile(itemId, imgDataURL);
+  const fileReturn = await createAnUploadImageFile(itemId, imgDataURL, getContextId(editor));
   // To retrieve image.
   divContent = "<img src=\"" + fileReturn.fileUrl + "\" alt=\"ChemDoodle PNG\"/>";
   editor.insertContent(divContent);
 };
 
-export const createAnUploadImageFile = async (itemId, imageDataUrl) => {
+export const createAnUploadImageFile = async (itemId, imageDataUrl, contextId) => {
   const generatedImageResult = await new Promise( resolve => {
     return Ajax.call([{
       methodname: 'tiny_molstructure_generate_store_image',
       args: {
         'itemId': itemId,
-        'imageDataUrl': imageDataUrl
+        'imageDataUrl': imageDataUrl,
+        'contextId': contextId,
       },
       done : result => {
         resolve(result);
